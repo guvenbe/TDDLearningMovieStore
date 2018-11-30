@@ -12,7 +12,14 @@ public class MovieStore {
 
         List<Movie> results = new LinkedList<Movie>();
         for (Movie movie : movies) {
-            if (movie.getTitle().toUpperCase().contains(partialTitle.toUpperCase())) {
+            if (new Predicate(){
+                public boolean matches(Movie movie1){
+                    return movie.getTitle().toUpperCase().contains(partialTitle.toUpperCase());
+                }
+
+            }.matches(movie)
+
+            ) {
                 results.add(movie);
             }
         }
@@ -30,7 +37,12 @@ public class MovieStore {
 
         List<Movie> results = new LinkedList<Movie>();
         for (Movie movie : movies) {
-            if (movie.getDirector().toUpperCase().equals(director.toUpperCase())) {
+            if (new Predicate(){
+                public  boolean matches(Movie movie) {
+
+                    return movie.getDirector().toUpperCase().equals(director.toUpperCase());
+                }
+            }.matches(movie)) {
                 results.add(movie);
             }
         }
@@ -43,11 +55,19 @@ public class MovieStore {
         List<Movie> results = new LinkedList<Movie>();
 
         for (Movie movie : movies) {
-            if (movie.getReleaseYear() > from && movie.getReleaseYear() < to) {
+            if (new Predicate(){
+               public boolean matches(Movie movie1) {
+                   return movie.getReleaseYear() > from && movie.getReleaseYear() < to;
+               }
+            }.matches(movie)) {
                 results.add(movie);
             }
         }
         return results;
     }
 
+}
+
+interface Predicate{
+    public boolean matches(Movie movie);
 }
